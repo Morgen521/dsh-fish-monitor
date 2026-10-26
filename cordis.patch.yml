@@ -1,0 +1,4 @@
+# dsh-fish-monitor bundle patch
+- insert:
+    - id: fish-monitor
+      name: 'dsh-fish-monitor'

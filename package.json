@@ -1,0 +1,45 @@
+{
+  "name": "dsh-fish-monitor",
+  "version": "0.1.0",
+  "description": "Realtime token usage and mood dashboard for an Aurabot (dsh-aurabot-qq) persona inside DeepSeek Harness",
+  "type": "module",
+  "license": "MIT",
+  "author": "Morgen521",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "monitor",
+    "token-usage",
+    "aurabot"
+  ],
+  "homepage": "https://github.com/Morgen521/dsh-fish-monitor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Morgen521/dsh-fish-monitor.git"
+  },
+  "main": "src/host.js",
+  "exports": {
+    ".": "./src/host.js",
+    "./client": "./client/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "client",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": ["slots"],
+      "external": ["react"]
+    }
+  }
+}
