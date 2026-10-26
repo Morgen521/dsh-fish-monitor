@@ -86,8 +86,10 @@ window.__ModuleLoader__.load({
         ),
 
         h('div', { style: { display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 16 } },
-          h('div', { style: card }, h('div', { style: label }, '今日 tokens（输入+输出）'), h('div', { style: big }, fmt(data.today.tokens))),
+          h('div', { style: card }, h('div', { style: label }, '今日 tokens'), h('div', { style: big }, fmt(data.today.tokens))),
+          h('div', { style: card }, h('div', { style: label }, '累计 tokens'), h('div', { style: big }, fmt((data.total.input || 0) + (data.total.output || 0)))),
           h('div', { style: card }, h('div', { style: label }, '今日估算花费'), h('div', { style: big }, money(data.today.cost))),
+          h('div', { style: card }, h('div', { style: label }, '累计估算花费'), h('div', { style: big }, money(data.total.cost))),
           h('div', { style: card }, h('div', { style: label }, '实时速率'), h('div', { style: big }, fmt(data.ratePerMin) + ' /分')),
           h('div', { style: card }, h('div', { style: label }, '最高上下文占用'), h('div', { style: big }, (maxRatio * 100).toFixed(0) + '%'))
         ),
@@ -100,13 +102,13 @@ window.__ModuleLoader__.load({
         h('div', { style: { ...label, fontSize: 13, marginBottom: 8 } }, '按会话明细（今日）'),
         h('div', { style: { border: '1px solid rgba(127,127,127,0.18)', borderRadius: 12, overflow: 'hidden' } },
           h('div', { style: { display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1.4fr', gap: 8, padding: '10px 14px', fontSize: 12, opacity: 0.6, background: 'rgba(127,127,127,0.06)' } },
-            h('div', null, '会话'), h('div', null, '输入'), h('div', null, '输出'), h('div', null, '花费'), h('div', null, '上下文')
+            h('div', null, '会话'), h('div', null, '今日 tokens'), h('div', null, '累计 tokens'), h('div', null, '今日花费'), h('div', null, '上下文')
           ),
           sessions.length ? sessions.map((s) =>
             h('div', { key: s.id, style: { display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1.4fr', gap: 8, padding: '10px 14px', borderTop: '1px solid rgba(127,127,127,0.12)', alignItems: 'center' } },
               h('div', { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }, title: s.title }, s.title),
-              h('div', null, fmt(s.todayInput)),
-              h('div', null, fmt(s.todayOutput)),
+              h('div', null, fmt((s.todayInput || 0) + (s.todayOutput || 0))),
+              h('div', null, fmt((s.input || 0) + (s.output || 0))),
               h('div', null, money(s.todayCost)),
               h('div', { style: { display: 'flex', alignItems: 'center', gap: 8 } },
                 h('div', { style: { flex: 1, height: 6, borderRadius: 3, background: 'rgba(127,127,127,0.18)', overflow: 'hidden' } },
@@ -121,7 +123,7 @@ window.__ModuleLoader__.load({
         h('div', { style: { marginTop: 14, fontSize: 11, opacity: 0.5, lineHeight: 1.7 } },
           `费用按估算价：输入 ¥${data.rates.input}/M、输出 ¥${data.rates.output}/M、缓存命中 ¥${data.rates.cacheRead}/M。`,
           h('br'),
-          '「今日」从当天第一次打开监控时开始累计，重启 DSH 不清零。'
+          '「今日」从当天第一次打开监控时开始累计；「累计」是该会话建立以来的全部消耗，重启 DSH 都不清零。'
         )
       )
     }
